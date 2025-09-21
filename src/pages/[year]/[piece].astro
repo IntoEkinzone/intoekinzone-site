@@ -1,0 +1,51 @@
+---
+import { getArtworkPath } from "@/lib/artworks";
+import fs from "fs";
+
+// Validate route params
+const { year, piece } = Astro.params;
+if (!year || !piece) {
+  throw new Error("Missing required route parameters");
+}
+
+// Check if artwork exists
+const artworkPath = getArtworkPath(year, piece);
+if (!fs.existsSync(artworkPath)) {
+  // Redirect to 404 page
+  return Astro.redirect("/404");
+}
+
+// Derive base URL from request
+const request = Astro.request;
+const baseUrl = new URL("/", request.url).origin;
+
+const imageUrl = `${baseUrl}/api/artwork/${year}/${piece}`;
+const title = piece.replace(/[-_]/g, " ").replace(/\.[^/.]+$/, "");
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{title} — {year} Artwork</title>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:url" content={`${baseUrl}/${year}/${piece}`} />
+    <meta property="og:description" content={`Artwork from ${year}: ${title}`} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:image" content={imageUrl} />
+  </head>
+
+  <body class="p-8">
+    <h1 class="text-xl font-bold mb-4">{title}</h1>
+    <img src={`/api/artwork/${year}/${piece}`} alt={title} class="max-w-full" />
+    <p>
+      <a class="text-blue-600 hover:underline" href={`/${year}`}>← Back to {year}</a>
+    </p>
+  </body>
+</html>

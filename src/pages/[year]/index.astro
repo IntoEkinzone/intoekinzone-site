@@ -1,0 +1,33 @@
+---
+import { getArtworks } from "@/lib/artworks";
+
+const { year } = Astro.params;
+
+if (!year || year.includes(".")) {
+  return Astro.redirect("/404");
+}
+
+const artworks = getArtworks(year);
+
+if (!artworks || artworks.length === 0) {
+  return Astro.redirect("/404");
+}
+---
+
+<html>
+  <head>
+    <title>Artworks from {year}</title>
+  </head>
+  <body class="p-8">
+    <h1 class="text-2xl font-bold mb-4">Artworks from {year}</h1>
+    <ul class="space-y-2">
+      {artworks.map((file) => (
+        <li>
+          <a class="text-blue-600 hover:underline" href={`/${year}/${file}`}>
+            {file}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>
