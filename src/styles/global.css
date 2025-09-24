@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
 body {
-    @apply bg-black text-white
+    @apply bg-black text-white font-oswald 
+
 }
 
 @theme {
     --color-mustard: #fcda82;
     --font-oswald: "Oswald", sans-serif;
+     --spacing: 8px; 
+    
 }
-
 @font-face {
     font-family: Oswald;
     font-style: normal;

@@ -20,11 +20,14 @@ if (!artworks || artworks.length === 0) {
     <title>Artworks from {year}</title>
   </head>
   <body class="p-8">
-    <h1 class="text-2xl font-bold mb-4">Artworks from {year}</h1>
+    <h1 class="text-4xl text-mustard font-bold mb-1">{year}</h1>
+    <p class="mb-4">
+      <a class="text-1xl text-white hover:underline" href="/">Back to Front Page</a>
+    </p>
     <ul class="space-y-2">
       {artworks.map((file) => (
         <li>
-          <a class="text-blue-600 hover:underline" href={`/${year}/${file}`}>
+          <a class="text-2xl white hover:underline" href={`/${year}/${file}`}>
             {file}
           </a>
         </li>

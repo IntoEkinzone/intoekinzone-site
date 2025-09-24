@@ -40,13 +40,47 @@ const title = piece.replace(/[-_]/g, " ").replace(/\.[^/.]+$/, "");
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:image" content={imageUrl} />
+
+    <style>
+      .image-container {
+        display: inline-block;
+        padding: 0.25rem;
+        border-radius: 0.75rem;
+        background-color: #000000; 
+        transition: background-color 0.2s ease;
+      }
+
+      .image-container.loaded {
+        background-color: #000000; 
+      }
+
+      .fade-in {
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+      }
+
+      .fade-in.loaded {
+        opacity: 1;
+      }
+    </style>
   </head>
 
   <body class="p-8">
-    <h1 class="text-xl font-bold mb-4">{title}</h1>
-    <img src={`/api/artwork/${year}/${piece}`} alt={title} class="max-w-full" />
-    <p>
-      <a class="text-blue-600 hover:underline" href={`/${year}`}>← Back to {year}</a>
+    <h1 class="text-4xl text-mustard font-bold mb-1">{title}</h1>
+
+    <p class="mb-4">
+      <a class="text-1xl white hover:underline" href={`/${year}`}>Back to {year}</a>
     </p>
+
+    <div class="image-container" id="artwork-container">
+      <a href={`/api/artwork/${year}/${piece}`} target="_blank" rel="noopener noreferrer">
+        <img
+          src={`/api/artwork/${year}/${piece}`}
+          alt={title}
+          class="rounded-md fade-in max-w-88"
+          onload="this.classList.add('loaded'); document.getElementById('artwork-container').classList.add('loaded');"
+        />
+      </a>
+    </div>
   </body>
 </html>
