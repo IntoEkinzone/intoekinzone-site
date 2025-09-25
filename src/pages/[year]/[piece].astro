@@ -73,7 +73,7 @@ const title = piece.replace(/[-_]/g, " ").replace(/\.[^/.]+$/, "");
     </p>
 
     <div class="image-container" id="artwork-container">
-      <a href={`/api/artwork/${year}/${piece}`} target="_blank" rel="noopener noreferrer">
+      <a href={`/api/artwork/${year}/${piece}`}>
         <img
           src={`/api/artwork/${year}/${piece}`}
           alt={title}
