@@ -16,5 +16,5 @@ body {
     font-style: normal;
     font-weight: 200 700;
     font-display: swap;
-    src: url("/fonts/Oswald.woff2") format("woff2");
+    src: url("/fonts/Oswald-VariableFont_wght.ttf") format("truetype");
 }
