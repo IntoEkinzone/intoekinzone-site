@@ -1,18 +1,14 @@
 ---
 import '@/styles/global.css'
-import { getArtworks } from "@/lib/artworks";
+import { artworksByYear } from "@/lib/artworks";
+
+export function getStaticPaths() {
+  const years = Object.keys(artworksByYear);
+  return years.map((year) => ({ params: { year } }));
+}
 
 const { year } = Astro.params;
-
-if (!year || year.includes(".")) {
-  return Astro.redirect("/404");
-}
-
-const artworks = getArtworks(year);
-
-if (!artworks || artworks.length === 0) {
-  return Astro.redirect("/404");
-}
+const artworks = artworksByYear[year] ?? [];
 ---
 
 <html>
@@ -25,10 +21,10 @@ if (!artworks || artworks.length === 0) {
       <a class="text-1xl text-white hover:underline" href="/">Back to Front Page</a>
     </p>
     <ul class="space-y-2">
-      {artworks.map((file) => (
+      {artworks.map(({ name, slug }) => (
         <li>
-          <a class="text-2xl white hover:underline" href={`/${year}/${file}`}>
-            {file}
+          <a class="text-2xl white hover:underline" href={`/${year}/${slug}`}>
+            {name}
           </a>
         </li>
       ))}

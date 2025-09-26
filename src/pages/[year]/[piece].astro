@@ -1,86 +1,88 @@
 ---
-import '@/styles/global.css'
-import { getArtworkPath } from "@/lib/artworks";
-import fs from "fs";
+import { Image } from "astro:assets";
+import { allArtworks, type Artwork } from "@/lib/artworks";
+import "@/styles/global.css";
 
-// Validate route params
-const { year, piece } = Astro.params;
-if (!year || !piece) {
-  throw new Error("Missing required route parameters");
+export function getStaticPaths() {
+  return allArtworks.map((artwork) => ({
+    params: {
+      year: artwork.year,
+      piece: artwork.slug,
+    },
+    props: { artwork },
+  }));
 }
 
-// Check if artwork exists
-const artworkPath = getArtworkPath(year, piece);
-if (!fs.existsSync(artworkPath)) {
-  // Redirect to 404 page
-  return Astro.redirect("/404");
-}
+const { artwork } = Astro.props as { artwork: Artwork };
 
-// Derive base URL from request
-const request = Astro.request;
-const baseUrl = new URL("/", request.url).origin;
+const title = artwork.name;
 
-const imageUrl = `${baseUrl}/api/artwork/${year}/${piece}`;
-const title = piece.replace(/[-_]/g, " ").replace(/\.[^/.]+$/, "");
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+
+const imageUrl = new URL(artwork.metadata.src, Astro.site).href;
+
+const currentIndex = allArtworks.findIndex(
+  (art) => art.slug === artwork.slug && art.year === artwork.year,
+);
+const previousArtwork = allArtworks[currentIndex - 1];
+const nextArtwork = allArtworks[currentIndex + 1];
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{title} — {year} Artwork</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — {artwork.year} Artwork</title>
 
-    <!-- Open Graph -->
     <meta property="og:type" content="article" />
     <meta property="og:title" content={title} />
     <meta property="og:image" content={imageUrl} />
-    <meta property="og:url" content={`${baseUrl}/${year}/${piece}`} />
-    <meta property="og:description" content={`Artwork from ${year}: ${title}`} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:description" content={`Artwork from ${artwork.year}: ${title}`} />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:image" content={imageUrl} />
-
-    <style>
-      .image-container {
-        display: inline-block;
-        padding: 0.25rem;
-        border-radius: 0.75rem;
-        background-color: #000000; 
-        transition: background-color 0.2s ease;
-      }
-
-      .image-container.loaded {
-        background-color: #000000; 
-      }
-
-      .fade-in {
-        opacity: 0;
-        transition: opacity 0.2s ease-in-out;
-      }
-
-      .fade-in.loaded {
-        opacity: 1;
-      }
-    </style>
   </head>
 
-  <body class="p-8">
-    <h1 class="text-4xl text-mustard font-bold mb-1">{title}</h1>
+  <body class="p-8 bg-gray-900 text-white flex flex-col items-center">
+    <div class="w-full max-w-4xl">
+      <div class="mb-4 text-center">
+        <a class="text-1xl hover:underline" href={`/${artwork.year}`}
+          >&larr; Back to {artwork.year}</a
+        >
+         | 
+        <a class="text-1xl hover:underline" href="/">All Years</a>
+      </div>
 
-    <p class="mb-4">
-      <a class="text-1xl white hover:underline" href={`/${year}`}>Back to {year}</a>
-    </p>
+      <h1 class="text-4xl text-mustard font-bold mb-4 text-center">
+        {title}
+      </h1>
 
-    <div class="image-container" id="artwork-container">
-      <a href={`/api/artwork/${year}/${piece}`}>
-        <img
-          src={`/api/artwork/${year}/${piece}`}
+      <div class="mb-4">
+        <Image
+          src={artwork.metadata}
           alt={title}
-          class="rounded-md fade-in max-w-88"
-          onload="this.classList.add('loaded'); document.getElementById('artwork-container').classList.add('loaded');"
+          class="w-full h-auto rounded-lg shadow-lg"
         />
-      </a>
+      </div>
+
+      <div class="flex justify-between text-2xl font-bold">
+        <div>
+          {previousArtwork && (
+            <a href={`/${previousArtwork.year}/${previousArtwork.slug}`} class="hover:underline">
+              &larr; Previous
+            </a>
+          )}
+        </div>
+        <div>
+          {nextArtwork && (
+            <a href={`/${nextArtwork.year}/${nextArtwork.slug}`} class="hover:underline">
+              Next &rarr;
+            </a>
+          )}
+        </div>
+      </div>
     </div>
   </body>
 </html>
