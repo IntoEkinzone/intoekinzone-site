@@ -21,6 +21,13 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 
 const imageUrl = new URL(artwork.metadata.src, Astro.site).href;
 
+const oEmbedData = {
+  provider_name: "IntoEkinZone",
+  provider_url: "https://intoekinzone.com",
+};
+
+const oEmbedHref = `data:application/json,${encodeURIComponent(JSON.stringify(oEmbedData))}`;
+
 const currentIndex = allArtworks.findIndex(
   (art) => art.slug === artwork.slug && art.year === artwork.year,
 );
@@ -38,11 +45,13 @@ const nextArtwork = allArtworks[currentIndex + 1];
     <meta property="og:title" content={title} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:url" content={pageUrl} />
-    <meta property="og:description" content={`Artwork from ${artwork.year}: ${title}`} />
+    <meta property="og:description" content={`Artwork from ${artwork.year}`} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:image" content={imageUrl} />
+
+    <link type="application/json+oembed" href={oEmbedHref} />
   </head>
 
   <body class="p-8 bg-gray-900 text-white flex flex-col items-center">
