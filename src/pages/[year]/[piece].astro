@@ -26,6 +26,8 @@ const currentIndex = allArtworks.findIndex(
 );
 const previousArtwork = allArtworks[currentIndex - 1];
 const nextArtwork = allArtworks[currentIndex + 1];
+
+const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href
 ---
 
 <html lang="en">
@@ -44,7 +46,7 @@ const nextArtwork = allArtworks[currentIndex + 1];
     <meta name="twitter:title" content={title} />
     <meta name="twitter:image" content={imageUrl} />
 
-    <link type="application/json+oembed" href="/api/oembed.json" />
+    <link type="application/json+oembed" href={oEmbedUrl} />
   </head>
 
   <body class="p-8 bg-gray-900 text-white flex flex-col items-center">
