@@ -35,6 +35,13 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — {artwork.year} | IntoEkinZone</title>
+    <link 
+      rel="preload" 
+      href="/fonts/Oswald-VariableFont_wght.ttf" 
+      as="font" 
+      type="font/ttf" 
+      crossorigin="anonymous" 
+    />
 
     <meta property="og:type" content="article" />
     <meta property="og:title" content={title} />
