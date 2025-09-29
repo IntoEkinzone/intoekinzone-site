@@ -1,12 +1,25 @@
 ---
 import "@/styles/global.css"
 import { uniqueYears } from "@/lib/artworks";
+
+const earliestYear = Math.min(...[...uniqueYears].map(i => Number(i)))
+const latestYear = Math.max(...[...uniqueYears].map(i => Number(i)))
+
+const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href
 ---
 
 <html>
   <head>
     <meta charset="UTF-8">
     <title>Artwork Archive | IntoEkinZone</title>
+
+    <meta property="og:title" content="Artwork Archive">
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:description" content={`Artwork from ${earliestYear} to ${latestYear}`} />
+
+    <meta name="twitter:title" content="Artwork Archive" />
+
+    <link type="application/json+oembed" href={oEmbedUrl} />
   </head>
   <body class="p-8">
     <h1 class="text-6xl text-mustard font-bold mb-4">Artwork Archive</h1>
