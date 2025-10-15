@@ -24,13 +24,9 @@ const artworks = Object.entries(imageImports).reduce(
   (acc, [path, file]) => {
     const year = path.split("/")[3];
 
-    // ---- ✨ THE FIX IS HERE ✨ ----
-    // 1. Get the original filename from the clean path.
     const filename = path.split("/").pop() ?? "";
 
-    // 2. Create the "pretty name" by removing the file extension from the original filename.
     const name = filename.replace(/\.[^/.]+$/, "");
-    // -----------------------------
 
     const slug = slugify(name);
 
