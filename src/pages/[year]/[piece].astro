@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 import { allArtworks, type Artwork } from "@/lib/artworks";
 import "@/styles/global.css";
+import ChevronLeft from "@/svg/chevron-left.svg";
+import ChevronRight from "@/svg/chevron-right.svg";
 
 export function getStaticPaths() {
   return allArtworks.map((artwork) => ({
@@ -27,21 +29,21 @@ const currentIndex = allArtworks.findIndex(
 const previousArtwork = allArtworks[currentIndex - 1];
 const nextArtwork = allArtworks[currentIndex + 1];
 
-const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href
+const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="/favicon.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <title>{title} — {artwork.year} | IntoEkinZone</title>
-    <link 
-      rel="preload" 
-      href="/fonts/Oswald-VariableFont_wght.ttf" 
-      as="font" 
-      type="font/ttf" 
-      crossorigin="anonymous" 
+    <link
+      rel="preload"
+      href="/fonts/Oswald-VariableFont_wght.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin="anonymous"
     />
 
     <meta property="og:type" content="article" />
@@ -57,42 +59,78 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href
     <link type="application/json+oembed" href={oEmbedUrl} />
   </head>
 
-  <body class="p-8 bg-gray-900 text-white flex flex-col items-center">
-    <div class="w-full max-w-4xl">
-      <div class="mb-4 text-center">
-        <a class="text-1xl hover:underline" href={`/${artwork.year}`}
-          >&larr; Back to {artwork.year}</a
-        >
-         | 
-        <a class="text-1xl hover:underline" href="/">All Years</a>
+  <body class="h-screen w-screen overflow-hidden bg-gray-900 text-white">
+    <div class="flex flex-col h-full w-full box-border">
+      <div id="header" class="flex-none rounded pt-1 pb-2">
+        <div class="text-center">
+          <a class="text-1xl hover:underline" href={`/${artwork.year}`}
+            >&larr; Back to {artwork.year}</a
+          >
+          |
+          <a class="text-1xl hover:underline" href="/">All Years</a>
+        </div>
+        <h1 class="text-4xl text-mustard font-bold text-center">{title}</h1>
       </div>
-
-      <h1 class="text-4xl text-mustard font-bold mb-4 text-center">
-        {title}
-      </h1>
-
-      <div class="mb-4">
+      <div
+        id="content"
+        class="flex-1 flex-col md:flex-row min-h-0 flex items-center justify-center pb-0 md:pb-2"
+      >
+        <div class="min-w-0 md:min-w-8 hidden md:block">
+          {
+            previousArtwork && (
+              <a
+                href={`/${previousArtwork.year}/${previousArtwork.slug}`}
+                class="hover:text-mustard transition"
+              >
+                <ChevronLeft width={64} height={64} />
+              </a>
+            )
+          }
+        </div>
         <Image
           src={artwork.metadata}
           alt={title}
-          class="w-full h-auto rounded-lg shadow-lg"
+          class="max-h-full max-w-full object-contain rounded-lg shadow-lg w-auto"
         />
-      </div>
-
-      <div class="flex justify-between text-2xl font-bold">
-        <div>
-          {previousArtwork && (
-            <a href={`/${previousArtwork.year}/${previousArtwork.slug}`} class="hover:underline">
-              &larr; Previous
-            </a>
-          )}
+        <div class="min-w-0 md:min-w-8 hidden md:block">
+          {
+            nextArtwork && (
+              <a
+                href={`/${nextArtwork.year}/${nextArtwork.slug}`}
+                class="hover:text-mustard transition"
+              >
+                <ChevronRight width={64} height={64} />
+              </a>
+            )
+          }
         </div>
-        <div>
-          {nextArtwork && (
-            <a href={`/${nextArtwork.year}/${nextArtwork.slug}`} class="hover:underline">
-              Next &rarr;
-            </a>
-          )}
+      </div>
+      <div id="footer" class="py-1">
+        <div class="flex flex-row justify-center">
+          <div class="md:min-w-0 min-w-8 md:hidden block">
+            {
+              previousArtwork && (
+                <a
+                  href={`/${previousArtwork.year}/${previousArtwork.slug}`}
+                  class="hover:text-mustard transition"
+                >
+                  <ChevronLeft width={48} height={48} />
+                </a>
+              )
+            }
+          </div>
+          <div class="md:min-w-0 min-w-8 md:hidden block">
+            {
+              nextArtwork && (
+                <a
+                  href={`/${nextArtwork.year}/${nextArtwork.slug}`}
+                  class="hover:text-mustard transition"
+                >
+                  <ChevronRight width={48} height={48} />
+                </a>
+              )
+            }
+          </div>
         </div>
       </div>
     </div>
