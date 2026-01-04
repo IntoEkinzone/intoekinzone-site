@@ -23,4 +23,6 @@ pnpm-debug.log*
 # IDE setting folders
 .idea/
 .vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
 .zed/
