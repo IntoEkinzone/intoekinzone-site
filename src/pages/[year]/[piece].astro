@@ -58,8 +58,13 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
 
     <link type="application/json+oembed" href={oEmbedUrl} />
   </head>
-
-  <body class="h-screen w-screen overflow-hidden bg-gray-900 text-white">
+  <body
+    class="h-screen w-screen overflow-hidden bg-gray-900 text-white"
+    data-prev={previousArtwork
+      ? `/${previousArtwork.year}/${previousArtwork.slug}`
+      : ""}
+    data-next={nextArtwork ? `/${nextArtwork.year}/${nextArtwork.slug}` : ""}
+  >
     <div class="flex flex-col h-full w-full box-border">
       <div id="header" class="flex-none rounded pt-1 pb-2">
         <div class="text-center">
@@ -134,5 +139,29 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
         </div>
       </div>
     </div>
+    <script>
+      const body = document.querySelector("body");
+      if (body) {
+        const prevUrl = body.dataset.prev;
+        const nextUrl = body.dataset.next;
+        addEventListener("keydown", (e) => {
+          if (e.key === "ArrowLeft") {
+            if (prevUrl) {
+              console.debug("Navigating left");
+              window.location.assign(prevUrl);
+            } else {
+              console.debug("No artwork left");
+            }
+          } else if (e.key === "ArrowRight") {
+            if (nextUrl) {
+              console.debug("Navigating right");
+              window.location.assign(nextUrl);
+            } else {
+              console.debug("No artwork right");
+            }
+          }
+        });
+      }
+    </script>
   </body>
 </html>
