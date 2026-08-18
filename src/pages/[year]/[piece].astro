@@ -44,7 +44,7 @@ const nextArtwork = allArtworks[currentIndex + 1];
     data-next={nextArtwork ? `/${nextArtwork.year}/${nextArtwork.slug}` : ""}
   >
     <div class="flex flex-col h-full w-full box-border">
-      <div id="header" class="flex-none rounded pt-1 pb-2">
+      <header id="header" class="flex-none rounded pt-1 pb-2">
         <div class="text-center">
           <a class="text-1xl hover:underline" href={`/${artwork.year}`}
             >&larr; Back to {artwork.year}</a
@@ -53,8 +53,8 @@ const nextArtwork = allArtworks[currentIndex + 1];
           <a class="text-1xl hover:underline" href="/">All Years</a>
         </div>
         <h1 class="text-4xl text-mustard font-bold text-center">{title}</h1>
-      </div>
-      <div
+      </header>
+      <main
         id="content"
         class="flex-1 flex-col md:flex-row min-h-0 flex items-center justify-center pb-0 md:pb-2 w-full"
       >
@@ -97,9 +97,9 @@ const nextArtwork = allArtworks[currentIndex + 1];
             )
           }
         </div>
-      </div>
+      </main>
       <!-- We use px values here cus... it doesn't work if not -->
-      <div id="footer" class="py-1 md:hidden">
+      <footer id="footer" class="py-1 md:hidden">
         <div class="flex flex-row items-center justify-center gap-x-2">
           <div class="w-[48px] flex justify-center">
             {
@@ -128,7 +128,7 @@ const nextArtwork = allArtworks[currentIndex + 1];
             }
           </div>
         </div>
-      </div>
+      </footer>
     </div>
     <script>
       const body = document.querySelector("body");
