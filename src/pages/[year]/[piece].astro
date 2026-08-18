@@ -56,7 +56,7 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:image" content={imageUrl} />
 
-    <link type="application/json+oembed" href={oEmbedUrl} />
+    <link rel="alternate" type="application/json+oembed" href={oEmbedUrl} />
   </head>
   <body
     class="h-screen w-screen overflow-hidden bg-gray-900 text-white"
