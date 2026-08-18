@@ -124,6 +124,7 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
                 <a
                   href={`/${previousArtwork.year}/${previousArtwork.slug}`}
                   class="hover:text-mustard transition"
+                  aria-label="Previous artwork"
                 >
                   <ChevronLeft width={48} height={48} />
                 </a>
@@ -136,6 +137,7 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
                 <a
                   href={`/${nextArtwork.year}/${nextArtwork.slug}`}
                   class="hover:text-mustard transition"
+                  aria-label="Next artwork"
                 >
                   <ChevronRight width={48} height={48} />
                 </a>
