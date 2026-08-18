@@ -29,7 +29,7 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href
 
     <meta name="twitter:title" content="Artwork Archive" />
 
-    <link type="application/json+oembed" href={oEmbedUrl} />
+    <link rel="alternate"type="application/json+oembed" href={oEmbedUrl} />
   </head>
   <body class="p-8">
     <h1 class="text-6xl text-mustard font-bold mb-4">Artwork Archive</h1>
