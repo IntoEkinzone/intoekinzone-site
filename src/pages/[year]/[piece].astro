@@ -52,6 +52,9 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
     <meta property="og:url" content={pageUrl} />
     <meta property="og:description" content={`Artwork from ${artwork.year}`} />
 
+    <meta name="description" content={`${title}, an artwork from ${artwork.year}.`}
+    />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:image" content={imageUrl} />
