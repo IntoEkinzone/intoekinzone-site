@@ -77,6 +77,7 @@ const nextArtwork = allArtworks[currentIndex + 1];
           <Image
             src={artwork.metadata}
             alt={title}
+            style={`aspect-ratio: ${artwork.metadata.width} / ${artwork.metadata.height};`}
             widths={widthsFor(artwork.metadata.width)}
             class="max-h-full max-w-full object-contain rounded-lg shadow-lg w-auto h-auto"
           />
