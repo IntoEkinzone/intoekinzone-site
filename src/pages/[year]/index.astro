@@ -1,6 +1,6 @@
 ---
-import '@/styles/global.css'
 import { artworksByYear } from "@/lib/artworks";
+import Default from "@/layouts/Default.astro";
 
 export function getStaticPaths() {
   const years = Object.keys(artworksByYear);
@@ -9,47 +9,29 @@ export function getStaticPaths() {
 
 const { year } = Astro.params;
 const artworks = artworksByYear[year] ?? [];
-
-const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href
 ---
 
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <title>Artworks from {year} | IntoEkinZone</title>
-    <link 
-      rel="preload" 
-      href="/fonts/Oswald-VariableFont_wght.ttf" 
-      as="font" 
-      type="font/ttf" 
-      crossorigin="anonymous" 
-    />
-
-    <meta property="og:title" content=`Artwork Archive`>
-    <meta property="og:image" content={new URL("/favicon.png", Astro.url).href}>
-    <meta property="og:url" content={Astro.url} />
-    <meta property="og:description" content={`Artwork from ${year}`} />
-
-    <meta name="description" content={`Artwork from ${year}`} />
-
-    <meta name="twitter:title" content=`Artwork Archive` />
-
-    <link rel="alternate" type="application/json+oembed" href={oEmbedUrl} />
-  </head>
+<Default
+  title={`Artworks from ${year} | IntoEkinZone`}
+  description={`Artwork from ${year}`}
+>
   <body class="p-8">
     <h1 class="text-4xl text-mustard font-bold mb-1">{year}</h1>
     <p class="mb-4">
-      <a class="text-1xl text-white hover:underline" href="/">Back to Front Page</a>
+      <a class="text-1xl text-white hover:underline" href="/"
+        >Back to Front Page</a
+      >
     </p>
     <ul class="space-y-2">
-      {artworks.map(({ name, slug }) => (
-        <li>
-          <a class="text-2xl white hover:underline" href={`/${year}/${slug}`}>
-            {name}
-          </a>
-        </li>
-      ))}
+      {
+        artworks.map(({ name, slug }) => (
+          <li>
+            <a class="text-2xl white hover:underline" href={`/${year}/${slug}`}>
+              {name}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </body>
-</html>
+</Default>

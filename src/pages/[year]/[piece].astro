@@ -1,9 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import { allArtworks, type Artwork } from "@/lib/artworks";
-import "@/styles/global.css";
 import ChevronLeft from "@/svg/chevron-left.svg";
 import ChevronRight from "@/svg/chevron-right.svg";
+import Default from "@/layouts/Default.astro";
 
 export function getStaticPaths() {
   return allArtworks.map((artwork) => ({
@@ -19,8 +19,6 @@ const { artwork } = Astro.props as { artwork: Artwork };
 
 const title = artwork.name;
 
-const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
-
 const imageUrl = new URL(artwork.metadata.src, Astro.site).href;
 
 const currentIndex = allArtworks.findIndex(
@@ -28,39 +26,15 @@ const currentIndex = allArtworks.findIndex(
 );
 const previousArtwork = allArtworks[currentIndex - 1];
 const nextArtwork = allArtworks[currentIndex + 1];
-
-const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>{title} — {artwork.year} | IntoEkinZone</title>
-    <link
-      rel="preload"
-      href="/fonts/Oswald-VariableFont_wght.ttf"
-      as="font"
-      type="font/ttf"
-      crossorigin="anonymous"
-    />
-
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content={title} />
-    <meta property="og:image" content={imageUrl} />
-    <meta property="og:url" content={pageUrl} />
-    <meta property="og:description" content={`Artwork from ${artwork.year}`} />
-
-    <meta name="description" content={`${title}, an artwork from ${artwork.year}.`}
-    />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:image" content={imageUrl} />
-
-    <link rel="alternate" type="application/json+oembed" href={oEmbedUrl} />
-  </head>
+<Default
+  title={`${title} — ${artwork.year} | IntoEkinZone`}
+  description={`${title}, an artwork from ${artwork.year}.`}
+  ogType="article"
+  ogImage={imageUrl}
+  twitterCard="summary_large_image"
+>
   <body
     class="h-dvh w-dvw overflow-hidden bg-gray-900 text-white"
     data-prev={previousArtwork
@@ -176,4 +150,4 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
       }
     </script>
   </body>
-</html>
+</Default>
