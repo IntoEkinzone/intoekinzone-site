@@ -8,5 +8,8 @@ export default defineConfig({
   site: 'https://archive.ekin.zone',
   vite: {
     plugins: [tailwindcss()]
-  }
+  },
+  build: {
+    inlineStylesheets: 'always',
+  },
 });
