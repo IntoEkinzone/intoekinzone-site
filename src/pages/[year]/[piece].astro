@@ -132,23 +132,49 @@ const nextArtwork = allArtworks[currentIndex + 1];
       if (body) {
         const prevUrl = body.dataset.prev;
         const nextUrl = body.dataset.next;
+
+        function goToPrevious() {
+          if (prevUrl) window.location.assign(prevUrl);
+        }
+
+        function goToNext() {
+          if (nextUrl) window.location.assign(nextUrl);
+        }
+
         addEventListener("keydown", (e) => {
-          if (e.key === "ArrowLeft") {
-            if (prevUrl) {
-              console.debug("Navigating left");
-              window.location.assign(prevUrl);
-            } else {
-              console.debug("No artwork left");
-            }
-          } else if (e.key === "ArrowRight") {
-            if (nextUrl) {
-              console.debug("Navigating right");
-              window.location.assign(nextUrl);
-            } else {
-              console.debug("No artwork right");
-            }
-          }
+          if (e.key === "ArrowLeft") goToPrevious();
+          else if (e.key === "ArrowRight") goToNext();
         });
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        addEventListener(
+          "touchstart",
+          (e) => {
+            if (e.touches.length !== 1) return;
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+          },
+          { passive: true },
+        );
+
+        addEventListener(
+          "touchend",
+          (e) => {
+            if (e.changedTouches.length !== 1) return;
+            const deltaX = e.changedTouches[0].clientX - touchStartX;
+            const deltaY = e.changedTouches[0].clientY - touchStartY;
+
+            const MIN_SWIPE_DISTANCE = 50;
+            const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
+            if (!isHorizontal || Math.abs(deltaX) < MIN_SWIPE_DISTANCE) return;
+
+            if (deltaX > 0) goToPrevious();
+            else goToNext();
+          },
+          { passive: true },
+        );
       }
     </script>
   </body>
