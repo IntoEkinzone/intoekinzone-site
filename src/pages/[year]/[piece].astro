@@ -116,9 +116,10 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
           }
         </div>
       </div>
-      <div id="footer" class="py-1">
-        <div class="flex flex-row justify-center">
-          <div class="md:min-w-0 min-w-8 md:hidden block">
+      <!-- We use px values here cus... it doesn't work if not -->
+      <div id="footer" class="py-1 md:hidden">
+        <div class="flex flex-row items-center justify-center gap-x-2">
+          <div class="w-[48px] flex justify-center">
             {
               previousArtwork && (
                 <a
@@ -131,7 +132,7 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
               )
             }
           </div>
-          <div class="md:min-w-0 min-w-8 md:hidden block">
+          <div class="w-[48px] flex justify-center">
             {
               nextArtwork && (
                 <a
