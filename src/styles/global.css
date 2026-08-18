@@ -1,20 +1,19 @@
 @import "tailwindcss";
 
 body {
-    @apply bg-black text-white font-oswald 
-
+  @apply bg-black text-white font-oswald
 }
 
 @theme {
-    --color-mustard: #fcda82;
-    --font-oswald: "Oswald", sans-serif;
-     --spacing: 8px; 
-    
+  --color-mustard: #fcda82;
+  --font-oswald: "Oswald", sans-serif;
+  --spacing: 8px;
 }
+
 @font-face {
-    font-family: Oswald;
-    font-style: normal;
-    font-weight: 200 700;
-    font-display: fallback;
-    src: url("/fonts/Oswald-VariableFont_wght.ttf") format("truetype");
+  font-family: Oswald;
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: fallback;
+  src: url("/fonts/Oswald-VariableFont_wght.woff2") format("woff2-variations");
 }
