@@ -71,7 +71,7 @@ const oEmbedUrl = new URL("/api/oembed.json", Astro.site).href;
           <a class="text-1xl hover:underline" href={`/${artwork.year}`}
             >&larr; Back to {artwork.year}</a
           >
-          |
+          <span class="mx-1">|</span>
           <a class="text-1xl hover:underline" href="/">All Years</a>
         </div>
         <h1 class="text-4xl text-mustard font-bold text-center">{title}</h1>
