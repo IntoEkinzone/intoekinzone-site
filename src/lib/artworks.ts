@@ -16,7 +16,7 @@ function slugify(text: string): string {
 }
 
 const imageImports = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/artworks/*/*.{png,jpg,jpeg,webm}",
+  "/src/artworks/*/*.{png,jpg,jpeg,webp}",
   { eager: true },
 );
 
