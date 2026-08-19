@@ -18,9 +18,7 @@ const artworks = artworksByYear[year] ?? [];
   <body class="p-8">
     <header class="mb-4">
       <h1 class="text-4xl text-mustard font-bold mb-1">{year}</h1>
-      <a class="text-1xl text-white hover:underline" href="/"
-        >Back to Front Page</a
-      >
+      <a class="text-1xl hover:underline" href="/">Back to Front Page</a>
     </header>
 
     <main>
@@ -28,10 +26,7 @@ const artworks = artworksByYear[year] ?? [];
         {
           artworks.map(({ name, slug }) => (
             <li>
-              <a
-                class="text-2xl white hover:underline"
-                href={`/${year}/${slug}`}
-              >
+              <a class="text-2xl hover:underline" href={`/${year}/${slug}`}>
                 {name}
               </a>
             </li>
