@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -12,4 +12,16 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'always',
   },
+  fonts: [{
+    provider: fontProviders.local(),
+    name: "Oswald",
+    cssVariable: "--font-family-oswald",
+    options: {
+      variants: [{
+        weight: "200 700",
+        style: "normal",
+        src: ["./src/assets/fonts/Oswald-VariableFont_wght.woff2"],
+      }],
+    },
+  }],
 });
